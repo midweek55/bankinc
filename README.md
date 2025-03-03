@@ -8,6 +8,7 @@ API para la gestión de tarjetas de crédito y transacciones para Bank Inc.
 - Spring Boot 3.2.3
 - Spring Data JPA
 - H2 Database (para desarrollo)
+- PostgreSQL (para producción)
 - Docker
 - Swagger/OpenAPI para documentación
 
@@ -49,6 +50,14 @@ Este proyecto está configurado para ser desplegado en Railway. Puede desplegars
 3. Crea un nuevo proyecto seleccionando este repositorio
 4. Railway detectará automáticamente el Dockerfile y desplegará la aplicación
 
+### Acceso a la instancia desplegada
+
+La API está desplegada en Railway y se puede acceder en:
+
+```
+https://bankinc-production-1411.up.railway.app
+```
+
 ## Variables de entorno
 
 La aplicación soporta las siguientes variables de entorno:
@@ -61,13 +70,49 @@ La aplicación soporta las siguientes variables de entorno:
 - `DATABASE_DIALECT`: Dialecto de Hibernate para la base de datos
 - `LOG_LEVEL`: Nivel de log para el paquete de la aplicación
 
+Para Railway se utilizan las siguientes:
+- `PGHOST`: Host de PostgreSQL
+- `PGPORT`: Puerto de PostgreSQL
+- `PGDATABASE`: Nombre de la base de datos PostgreSQL
+- `PGUSER`: Usuario de PostgreSQL
+- `PGPASSWORD`: Contraseña de PostgreSQL
+
 ## Documentación de la API
 
 La documentación de la API está disponible en:
 
 ```
 http://localhost:8080/swagger-ui.html
+https://bankinc-production-1411.up.railway.app/swagger-ui.html
 ```
+
+## Colección de Postman
+
+En el archivo `BankIncApi.postman_collection.json` se encuentra una colección de Postman con todos los endpoints de la API. La colección incluye:
+
+- Variables para cambiar fácilmente entre el entorno local y Railway
+- Ejemplos de peticiones para cada endpoint
+- Descripciones detalladas de cada operación
+
+### Uso de la colección
+
+1. Importar la colección en Postman
+2. Por defecto, usa la URL de Railway: `https://bankinc-production-1411.up.railway.app`
+3. Para cambiar al entorno local, edita la variable de colección `baseUrl` y establece su valor a `http://localhost:8080`
+
+### Endpoints incluidos en la colección
+
+#### Tarjetas
+- `GET {{baseUrl}}/card/{productId}/number` - Genera un nuevo número de tarjeta
+- `POST {{baseUrl}}/card/enroll` - Activa una tarjeta
+- `DELETE {{baseUrl}}/card/{cardId}` - Bloquea una tarjeta
+- `POST {{baseUrl}}/card/balance` - Recarga saldo a una tarjeta
+- `GET {{baseUrl}}/card/balance/{cardId}` - Consulta el saldo de una tarjeta
+
+#### Transacciones
+- `POST {{baseUrl}}/transaction/purchase` - Procesa una compra
+- `GET {{baseUrl}}/transaction/{transactionId}` - Consulta una transacción
+- `POST {{baseUrl}}/transaction/anulation` - Anula una transacción
 
 ## Funcionalidades principales
 
@@ -100,6 +145,7 @@ http://localhost:8080/swagger-ui.html
 │   │
 │   └── test/                               # Pruebas unitarias e integración
 │
+├── BankIncApi.postman_collection.json      # Colección de Postman
 ├── docker-compose.yml                      # Configuración de Docker Compose
 ├── Dockerfile                              # Dockerfile para construir la imagen
 ├── railway.toml                            # Configuración para Railway

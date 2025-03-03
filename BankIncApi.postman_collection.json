@@ -1,0 +1,242 @@
+{
+	"info": {
+		"_postman_id": "af8b7e9c-2a12-4b5a-8a91-f25d93a75e3a",
+		"name": "Bank Inc API",
+		"description": "Colección de endpoints para la API de Bank Inc Cards",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tarjetas",
+			"item": [
+				{
+					"name": "Generar Número de Tarjeta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/card/123456/number?titular=John Doe",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"card",
+								"123456",
+								"number"
+							],
+							"query": [
+								{
+									"key": "titular",
+									"value": "John Doe"
+								}
+							]
+						},
+						"description": "Genera un nuevo número de tarjeta basado en el ID del producto"
+					},
+					"response": []
+				},
+				{
+					"name": "Activar Tarjeta",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"numeroTarjeta\": \"1234567890123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/card/enroll",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"card",
+								"enroll"
+							]
+						},
+						"description": "Activa una tarjeta existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Bloquear Tarjeta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/card/1234567890123456",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"card",
+								"1234567890123456"
+							]
+						},
+						"description": "Bloquea una tarjeta existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Recargar Saldo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"numeroTarjeta\": \"1234567890123456\",\n    \"monto\": 100000\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/card/balance",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"card",
+								"balance"
+							]
+						},
+						"description": "Recarga el saldo de una tarjeta"
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar Saldo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/card/balance/1234567890123456",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"card",
+								"balance",
+								"1234567890123456"
+							]
+						},
+						"description": "Obtiene el saldo actual de una tarjeta"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints relacionados con la gestión de tarjetas"
+		},
+		{
+			"name": "Transacciones",
+			"item": [
+				{
+					"name": "Realizar Compra",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"numeroTarjeta\": \"1234567890123456\",\n    \"monto\": 50000\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/transaction/purchase",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transaction",
+								"purchase"
+							]
+						},
+						"description": "Procesa una nueva transacción de compra"
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar Transacción",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transaction/TR-123456",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transaction",
+								"TR-123456"
+							]
+						},
+						"description": "Obtiene los detalles de una transacción específica"
+					},
+					"response": []
+				},
+				{
+					"name": "Anular Transacción",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"transaccionId\": \"TR-123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/transaction/anulation",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transaction",
+								"anulation"
+							]
+						},
+						"description": "Anula una transacción existente (solo disponible dentro de las 24 horas siguientes)"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints relacionados con la gestión de transacciones"
+		},
+		{
+			"name": "Swagger UI",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/swagger-ui.html",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"swagger-ui.html"
+					]
+				},
+				"description": "Acceso a la documentación de la API mediante Swagger UI"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://bankinc-production-1411.up.railway.app"
+		}
+	]
+}
