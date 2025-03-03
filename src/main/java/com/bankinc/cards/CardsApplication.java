@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.boot.CommandLineRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Map;
 
 @SpringBootApplication
 @EntityScan("com.bankinc.cards.model")
@@ -26,15 +27,22 @@ public class CardsApplication {
             logger.info("Iniciando aplicación Bank Inc Cards con PostgreSQL");
             
             // Log variables de entorno relacionadas con PostgreSQL
-            logger.info("DATABASE_URL está definida: {}", System.getenv("DATABASE_URL") != null);
-            logger.info("PGUSER está definida: {}", System.getenv("PGUSER") != null);
-            logger.info("PGHOST: {}", System.getenv("PGHOST"));
-            logger.info("PGPORT: {}", System.getenv("PGPORT"));
-            logger.info("PGDATABASE: {}", System.getenv("PGDATABASE"));
+            Map<String, String> env = System.getenv();
             
-            // Log variables de entorno específicas de Spring
-            logger.info("SPRING_DATASOURCE_URL está definida: {}", System.getenv("SPRING_DATASOURCE_URL") != null);
+            logger.info("Variables de entorno de PostgreSQL:");
+            logger.info("PGHOST: {}", env.getOrDefault("PGHOST", "no definido"));
+            logger.info("PGPORT: {}", env.getOrDefault("PGPORT", "no definido"));
+            logger.info("PGDATABASE: {}", env.getOrDefault("PGDATABASE", "no definido"));
+            logger.info("PGUSER está definida: {}", env.containsKey("PGUSER"));
+            logger.info("PGPASSWORD está definida: {}", env.containsKey("PGPASSWORD"));
             
+            // Construir URL de conexión para debug
+            String jdbcUrl = String.format("jdbc:postgresql://%s:%s/%s", 
+                env.getOrDefault("PGHOST", "localhost"), 
+                env.getOrDefault("PGPORT", "5432"), 
+                env.getOrDefault("PGDATABASE", "postgres"));
+            
+            logger.info("URL de conexión construida: {}", jdbcUrl);
             logger.info("Configuración de PostgreSQL inicializada");
         };
     }
