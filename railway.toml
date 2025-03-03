@@ -1,0 +1,9 @@
+[build]
+builder = "DOCKERFILE"
+dockerfile = "Dockerfile"
+
+[deploy]
+healthcheck_path = "/actuator/health"
+healthcheck_timeout_sec = 10
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
