@@ -15,13 +15,13 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI openAPI() {
-        Server localServer = new Server()
-                .url("http://localhost:8080")
-                .description("Servidor Local");
-                
         Server railwayServer = new Server()
                 .url("https://bankinc-production-1411.up.railway.app")
                 .description("Servidor Railway");
+                
+        Server localServer = new Server()
+                .url("http://localhost:8080")
+                .description("Servidor Local");
 
         Contact contact = new Contact()
                 .email("contacto@bankinc.com")
@@ -41,6 +41,6 @@ public class OpenApiConfig {
 
         return new OpenAPI()
                 .info(info)
-                .servers(List.of(localServer, railwayServer));
+                .servers(List.of(railwayServer, localServer));
     }
 }
